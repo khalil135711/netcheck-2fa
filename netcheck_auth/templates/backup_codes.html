@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Backup codes{% endblock %}
+{% block content %}
+<h1>{% if first_time %}2FA is now enabled{% else %}New backup codes{% endif %}</h1>
+<p class="flash info">Store these codes somewhere safe (password manager or printout).
+Each works <strong>once</strong>. They are shown only now; any older codes no longer work.</p>
+<ul class="codes">
+  {% for c in codes %}<li><code>{{ c }}</code></li>{% endfor %}
+</ul>
+<p><a href="{{ url_for('auth.dashboard') }}">Continue to the dashboard</a></p>
+{% endblock %}

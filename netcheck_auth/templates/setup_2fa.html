@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Set up 2FA{% endblock %}
+{% block content %}
+<h1>Set up two-factor authentication</h1>
+<ol>
+  <li>Install an authenticator app (e.g. Aegis, 2FAS, Google Authenticator, Microsoft Authenticator).</li>
+  <li>
+    {% if qr %}
+      Scan this QR code:
+      <div class="qr">{{ qr|safe }}</div>
+      Or enter the key manually:
+    {% else %}
+      Add a new account and enter this key manually (type: time-based):
+    {% endif %}
+    <code class="secret">{{ secret }}</code>
+  </li>
+  <li>Enter the 6-digit code the app shows to confirm.</li>
+</ol>
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>6-digit code
+    <input name="code" required maxlength="8" inputmode="numeric" autocomplete="one-time-code" autofocus>
+  </label>
+  <button type="submit">Enable 2FA</button>
+</form>
+{% endblock %}

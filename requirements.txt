@@ -1,0 +1,5 @@
+Flask>=3.0
+cryptography>=42.0
+# Optional: renders the enrollment QR code. Without it the app falls back
+# to showing the secret key for manual entry in the authenticator app.
+segno>=1.6

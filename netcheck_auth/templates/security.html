@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Security{% endblock %}
+{% block content %}
+<h1>Account security</h1>
+<p>Two-factor authentication is <strong>enabled</strong>.
+   Unused backup codes: <strong>{{ remaining }}</strong>.</p>
+
+<h2>Generate new backup codes</h2>
+<form method="post" action="{{ url_for('auth.regenerate_backup_codes') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Password <input name="password" type="password" required autocomplete="current-password"></label>
+  <label>Current 6-digit code <input name="code" required maxlength="8" inputmode="numeric" autocomplete="one-time-code"></label>
+  <button type="submit">Regenerate</button>
+</form>
+
+{% if not require %}
+<h2>Disable 2FA</h2>
+<form method="post" action="{{ url_for('auth.disable_2fa') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Password <input name="password" type="password" required autocomplete="current-password"></label>
+  <label>Current 6-digit code <input name="code" required maxlength="8" inputmode="numeric" autocomplete="one-time-code"></label>
+  <button type="submit" class="danger">Disable 2FA</button>
+</form>
+{% else %}
+<p class="muted">2FA is mandatory for this installation and cannot be disabled.</p>
+{% endif %}
+{% endblock %}
